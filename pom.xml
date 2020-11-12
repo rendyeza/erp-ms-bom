@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.5.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>id.nexbyte.erp</groupId>
+    <artifactId>erp-ms-bom</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>erp-ms-bom</name>
+    <description>Maven Bill of Materials for NexByte ERP Microservices</description>
+    <url>https://nexbyte.id/projects/spring-boot/ERP</url>
+
+    <organization>
+        <name>NexByte ID</name>
+        <url>https://nexbyte.id</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <name>Rendy Eza Putra</name>
+            <email>rendy@nexbyte.id</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://bitbucket.org/nexbyte/workspace/projects/ERP_BE</url>
+    </scm>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexbyte-snapshots</id>
+            <url>https://repository.nexbyte.id/repository/maven-snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>nexbyte-releases</id>
+            <url>https://repository.nexbyte.id/repository/maven-releases/</url>
+        </repository>
+    </distributionManagement>
+
+    <packaging>pom</packaging>
+
+    <properties>
+        <erp-core.version>0.0.1-SNAPSHOT</erp-core.version>
+        <java.version>11</java.version>
+        <mapstruct.version>1.4.1.Final</mapstruct.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>id.nexbyte.erp</groupId>
+                <artifactId>erp-core</artifactId>
+                <version>${erp-core.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct -->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>auto-clean</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-versions</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>[3.6.0,)</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>$(java.version)</version>
+                                </requireJavaVersion>
+                                <requireReleaseDeps>
+                                    <onlyWhenRelease>true</onlyWhenRelease>
+                                    <message>Release builds must not have on snapshot dependencies</message>
+                                </requireReleaseDeps>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                    <compilerArgs>
+                        <compilerArg>
+                            -Amapstruct.defaultComponentModel=spring
+                        </compilerArg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
